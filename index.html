@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-bg: #ffeef2;
+            --pink-soft: #ffc2d1;
+            --pink-main: #ff85a2;
+            --pink-dark: #fb6f92;
+            --purple-accent: #9c27b0;
+            --text-color: #4a4a4a;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--pink-bg);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px 15px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(251, 111, 146, 0.2);
+            border: 2px solid white;
+            text-align: center;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hidden { display: none !important; }
+
+        .fade-in { animation: fadeIn 0.6s ease forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Halaman 1: Gift Box */
+        .gift-box {
+            font-size: 100px;
+            cursor: pointer;
+            display: inline-block;
+            animation: bounce 1.2s infinite;
+            transition: 0.3s;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .menu-item {
+            background: white;
+            padding: 20px 5px;
+            border-radius: 20px;
+            border: 2px solid var(--pink-soft);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 40px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .menu-item:hover { transform: translateY(-5px); background: var(--pink-bg); }
+
+        /* --- BAGIAN FOTO DENGAN LOVE DI TENGAH --- */
+        .couple-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .photo-polaroid {
+            background: white;
+            padding: 6px 6px 12px 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 40%; /* Menyesuaikan lebar agar muat 2 foto + love */
+            transition: 0.3s;
+        }
+        .photo-polaroid.dia { transform: rotate(-5deg); }
+        .photo-polaroid.saya { transform: rotate(5deg); }
+        
+        .photo-polaroid img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .photo-label {
+            font-size: 11px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .center-love {
+            font-size: 30px;
+            animation: heartbeat 1.2s infinite;
+            filter: drop-shadow(0 0 5px rgba(156, 39, 176, 0.3));
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        /* Music & Letter */
+        .music-disk {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            margin: 20px auto;
+            background: url('MUSIC.jpeg') center/cover;
+            animation: spin 5s linear infinite;
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .letter-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            line-height: 1.4;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .back-btn {
+            margin-top: 25px;
+            background: var(--pink-main);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="Isabel LaRosa - I'm Yours (Lyrics).m4a" type="audio/mpeg">
+    </audio>
+
+    <div id="particles"></div>
+
+    <div class="container">
+        <p style="font-size: 11px; letter-spacing: 1px; color: var(--pink-dark); font-weight: 600; margin-bottom: 5px;">
+            FOR MY QUEEN (Veronica Aurellya)
+        </p>
+
+        <div id="page1" class="fade-in">
+            <h1 style="color: var(--pink-dark); margin-top: 0;">Happy Valentine's!</h1>
+            <p>Click the gift to open your surprise</p>
+            <div class="gift-box" onclick="openGift()">🎁</div>
+        </div>
+
+        <div id="page2" class="hidden fade-in">
+            <h2 style="color: var(--pink-dark);">MADE JUST FOR YOU</h2>
+            <p style="font-size: 14px;">Tap to open your surprise</p>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="showPage('page-music')">🎶</div>
+                <div class="menu-item" onclick="showPage('page-photo')">🖼️</div>
+                <div class="menu-item" onclick="showPage('page-letter')">💌</div>
+            </div>
+        </div>
+
+        <div id="page-music" class="hidden fade-in">
+            <h3>Song for Us 🎶</h3>
+            <div class="music-disk"></div>
+            <p><b>I'm Yours</b><br>Isabel LaRosa</p>
+            <button class="back-btn" onclick="showPage('page2')">Go back</button>
+        </div>
+
+        <div id="page-photo" class="hidden fade-in">
+            <h3>You And Me</h3>
+            
+            <div class="couple-wrapper">
+                <div class="photo-polaroid dia">
+                    <img src="aku.jpeg" alt="Dia">
+                    <p class="photo-label">wan</p>
+                </div>
+
+                <div class="center-love">💜</div>
+
+                <div class="photo-polaroid saya">
+                    <img src="dia.jpeg" alt="Saya">
+                    <p class="photo-label">Aurellya</p>
+                </div>
+            </div>
+
+            <button class="back-btn" onclick="showPage('page2')">Go back</button>
+        </div>
+
+        <div id="page-letter" class="hidden fade-in">
+            <h3 style="color: var(--pink-dark);">Dear You... 💌</h3>
+            <div class="letter-text">
+                "Aku nggak pernah minta hidup jadi sempurna,aku cuma minta satu : ada kamu di setiap prosesnya.Terima kasih sudah datang, bertahan,dan nggak pergi saat keadaan nggak selalu mudah.Kalau suatu hari dunia capek banget,semoga aku tetap jadi tempat kamu pulang.Selamat Hari Valentine 🤍."
+            </div>
+            <p><b>Always Yours ❤️</b></p>
+            <button class="back-btn" onclick="showPage('page2')">Go back</button>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+
+        function openGift() {
+            audio.play().catch(e => console.log("Music blocked."));
+            showPage('page2');
+        }
+
+        function showPage(pageId) {
+            const pages = ['page1', 'page2', 'page-music', 'page-photo', 'page-letter'];
+            pages.forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function createParticle() {
+            const container = document.getElementById('particles');
+            const particle = document.createElement('div');
+            const shapes = ['❤️', '🌸', '💜'];
+            particle.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+            particle.style.position = 'absolute';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = '-20px';
+            particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            particle.style.opacity = Math.random();
+            container.appendChild(particle);
+
+            const anim = particle.animate([
+                { transform: 'translateY(0) rotate(0deg)' },
+                { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)` }
+            ], { duration: Math.random() * 3000 + 3000, easing: 'linear' });
+
+            anim.onfinish = () => particle.remove();
+        }
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html>
